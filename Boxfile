@@ -1,0 +1,43 @@
+global:
+  env:
+    - APP_NAME: stjohnsandstpeters
+    - ENV: production
+    - SSH_PASS: set-me!
+
+web1: #component type & number
+  name: blog            #component settings
+  shared_writable_dirs:
+    - wp-content/themes/
+    - wp-content/plugins/
+    - wp-content/uploads/
+    - wp-content/upgrade/
+    - wp-content/cache/
+  document_root: app
+  php_version: 5.3.8
+  php_extensions:
+    - mysql
+    - gd
+    - eaccelerator
+    - sockets
+    - ssh2
+  php_default_locale: "en_GB"
+  php_date_timezone: "Europe/London"
+  php_post_max_size: "30M"
+  php_upload_max_filesize: "30M"
+     
+db1: #component type & number 
+  name: posts            #component settings
+  type: mysql
+ 
+cache1:
+  name: sessions
+  type: memcached
+
+after_build:
+  - "mv pagoda/wp-config.php wp-config.php"
+  - "php /var/www/pagoda/wp_config_generator.php"
+
+after_deploy:
+  - "cp -r pagoda/wp-content/themes/* wp-content/themes/"
+  - "cp -r pagoda/wp-content/plugins/* wp-content/plugins/"
+  - "rm -R pagoda"
