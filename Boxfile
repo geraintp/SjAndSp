@@ -1,8 +1,7 @@
 global:
   env:
     - APP_NAME: stjohnsandstpeters
-    - ENV: production
-    - SSH_PASS: set-me!
+    - SSH_PASS: setme
 
 web1: #component type & number
   name: blog            #component settings
